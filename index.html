@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            #sobremi,#contacto{display:none;}
+        </style>
+    </head>
+    <body>
+        <h1>Hola Emilio</h1>
+        <div id="inicio">
+            <h2>Esta es la página de inicio</h2>
+            <p>Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio Esta es la pagina de inicio </p>
+        </div>
+        <div id="sobremi">
+            <h2>Esta es la página de sobre mi</h2>
+            <p>Esta es la pagina de Sobre mi Esta es la pagina de Sobre mi Esta es la pagina de Sobre mi Esta es la pagina de Sobre mi Esta es la pagina de Sobre mi Esta es la pagina de Sobre mi Esta es la pagina de Sobre mi Esta es la pagina de Sobre mi </p>
+        </div>
+        <div id="contacto">
+            <h2>Esta es la página de contacto</h2>
+            <p>Esta es la pagina de Contacto Esta es la pagina de Contacto Esta es la pagina de Contacto Esta es la pagina de Contacto Esta es la pagina de Contacto Esta es la pagina de Contacto </p>
+        </div>
+        <button id="comienza">Hablame</button>
+        <script>
+            var edad = 45;
+            var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+            var reconocimiento = new SpeechRecognition();
+            
+            reconocimiento.continuous = false;
+            reconocimiento.lang = "es-ES";
+            
+            document.querySelector("#comienza").onclick = function(){
+                reconocimiento.start();
+                console.log("vamos allá")
+            }
+            
+            reconocimiento.onresult = function(event){
+                console.log("Algo ha llegado");
+                console.log(event);
+                console.log(event.results[0][0].transcript);
+                let text = event.results[0][0].transcript;
+                if(text.includes("inicio")){
+                    document.querySelector("#inicio").style.display = "block";
+                    document.querySelector("#sobremi").style.display = "none";
+                    document.querySelector("#contacto").style.display = "none";
+                }
+                if(text.includes("sobre mí")){
+                    document.querySelector("#inicio").style.display = "none";
+                    document.querySelector("#sobremi").style.display = "block";
+                    document.querySelector("#contacto").style.display = "none";
+                }
+                if(text.includes("contacto")){
+                    document.querySelector("#inicio").style.display = "none";
+                    document.querySelector("#sobremi").style.display = "none";
+                    document.querySelector("#contacto").style.display = "block";
+                }
+                
+            }
+            reconocimiento.onstop = function(){
+                console.log("Ha parado");
+                reconocimiento.start();
+            }
+        </script>
+    </body>
+</html>
